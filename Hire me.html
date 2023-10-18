@@ -1,66 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hire Me</title>
   <style>
-    /* Style the "Hire Me" button */
-    .hire-me-button {
-      background-color: #3498db;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    /* Style the pop-up form */
-    .hire-me-popup {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-    }
-
-    .popup-content {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-    }
+    /* Add your CSS styles here */
   </style>
 </head>
 <body>
-  <button class="hire-me-button" onclick="togglePopup()">Hire Me</button>
+  <h1>Welcome to my "Hire Me" Page</h1>
+  <p>Are you interested in working together? Fill out the form below:</p>
 
-  <div class="hire-me-popup" id="hireMePopup">
-    <div class="popup-content">
-      <h2>Contact Me</h2>
-      <form action="mailto:youremail@example.com" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br><br>
+  <form id="hireMeForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br><br>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
 
-        <label for="message">Message:</label><br>
-        <textarea id="message" name="message" rows="4" required></textarea><br><br>
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="4" required></textarea><br><br>
 
-        <input type="submit" value="Send">
-      </form>
-      <button onclick="togglePopup()">Close</button>
-    </div>
-  </div>
+    <input type="submit" value="Send">
+  </form>
+
+  <div id="responseMessage"></div>
 
   <script>
-    function togglePopup() {
-      var popup = document.getElementById('hireMePopup');
-      popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
-    }
+    const form = document.getElementById('hireMeForm');
+    const responseMessage = document.getElementById('responseMessage');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const response = await fetch('/your-server-endpoint', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        responseMessage.textContent = 'Message sent successfully!';
+        form.reset();
+      } else {
+        responseMessage.textContent = 'Oops! Something went wrong. Please try again later.';
+      }
+    });
   </script>
 </body>
 </html>
